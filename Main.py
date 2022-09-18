@@ -19,8 +19,8 @@ def calcular_numeros_primos(rango_inicial, rango_final):
     
     return numeros_primos
 
-def digitos_primo_mayor(numeros_primos):
-    digitos_primo_mayor = len(str(numeros_primos[len(numeros_primos) - 1]))
+def digitos_primo_mayor(relacion_primo_letra):
+    digitos_primo_mayor = relacion_primo_letra[len(relacion_primo_letra) - 1][0]
     return digitos_primo_mayor
 
 def asignacion_letra(numeros_primos, llave):
@@ -49,19 +49,32 @@ def encriptar_mensaje(mensaje, numeros_primos, llave):
 
 def desencriptar_mensaje(mensaje_encriptado, numeros_primos, llave):
     relacion_primo_letra = asignacion_letra(numeros_primos, llave)
-    digitos_mayor = digitos_primo_mayor(numeros_primos)
-    mensaje_desencriptado = []
+    digitos_mayor = digitos_primo_mayor(relacion_primo_letra)
+    cantidad_digitos = len(str(digitos_mayor))
+    mensaje_encriptado = str(mensaje_encriptado)
+    mensaje_desencriptado = ""
     
-    #Esto aun no funciona puesto que se revisa el texto encriptado cifra por cifra
-    for i in range(len(mensaje_encriptado)):
-        if (mensaje_encriptado[i] != " "):
-            for j in range(len(relacion_primo_letra)):
-                if mensaje_encriptado[i] == relacion_primo_letra[j][0]:
-                    mensaje_desencriptado.append(relacion_primo_letra[j][1])
+    while(mensaje_encriptado != ""):
+        if (mensaje_encriptado[0] == " "):
+            mensaje_desencriptado += " "
+            mensaje_encriptado = mensaje_encriptado[1:]
+        
+        if (int(mensaje_encriptado[:cantidad_digitos]) < digitos_mayor):
+            for i in range(len(relacion_primo_letra)):
+                if (int(mensaje_encriptado[:cantidad_digitos]) == relacion_primo_letra[i][0]):
+                    mensaje_desencriptado += relacion_primo_letra[i][1]
+                    if (" " in mensaje_encriptado[:cantidad_digitos] ):
+                        mensaje_encriptado = mensaje_encriptado[cantidad_digitos-1:]
+                    else:
+                        mensaje_encriptado = mensaje_encriptado[cantidad_digitos:]
                     break
         else:
-            mensaje_desencriptado.append(" ")
-            
+            for i in range(len(relacion_primo_letra)):
+                if (int(mensaje_encriptado[:cantidad_digitos-1]) == relacion_primo_letra[i][0]):
+                    mensaje_desencriptado += relacion_primo_letra[i][1]
+                    mensaje_encriptado = mensaje_encriptado[cantidad_digitos-1:]
+                    break
+    
     return mensaje_desencriptado
         
 def sistema():
@@ -97,7 +110,7 @@ def sistema():
         
             mensaje_desencriptado = desencriptar_mensaje(mensaje_encriptado, numeros_primos, llave)
         
-            print("Tu mensaje ha sido desencriptado: ", *mensaje_desencriptado, sep="")
+            print("Tu mensaje ha sido desencriptado: ", mensaje_desencriptado)
         elif (res == 3):
             return "Saliendo del programa..."
         else:
