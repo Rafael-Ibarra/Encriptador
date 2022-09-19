@@ -84,11 +84,20 @@ def sistema():
     
     while (res != 3):
         res = int(input("Seleccione una opción: "))
-        if (res == 1):
-            rango_inicial = int(input("Inserte un número para el inicio del rango: "))
-            rango_final = int(input("Inserte un número para el final del rango: "))
+        requisitos_cumplidos = False
         
-            numeros_primos = calcular_numeros_primos(rango_inicial, rango_final)
+        if (res == 1):
+            while (not requisitos_cumplidos):
+            
+                rango_inicial = int(input("Inserte un número para el inicio del rango: "))
+                rango_final = int(input("Inserte un número para el final del rango: "))
+        
+                numeros_primos = calcular_numeros_primos(rango_inicial, rango_final)
+                
+                if (len(numeros_primos) >= 27):
+                    requisitos_cumplidos = True
+                else:
+                    print("\nInserte un rango lo suficiente para almacenar 27 valores...\n")
         
             llave = int(input("Inserta un número para la llave: "))
         
@@ -96,21 +105,27 @@ def sistema():
         
             mensaje_encriptado = encriptar_mensaje(mensaje, numeros_primos, llave)
         
-            print("Tu mensaje ha sido encriptado: ", *mensaje_encriptado, sep="")
+            print("\n Tu mensaje ha sido encriptado: ", *mensaje_encriptado, "\n", sep="")
 
         elif (res == 2):
-            rango_inicial = int(input("Inserte un número para el inicio del rango: "))
-            rango_final = int(input("Inserte un número para el final del rango: "))
+            while (not requisitos_cumplidos):
+                rango_inicial = int(input("Inserte un número para el inicio del rango: "))
+                rango_final = int(input("Inserte un número para el final del rango: "))
         
-            numeros_primos = calcular_numeros_primos(rango_inicial, rango_final)
+                numeros_primos = calcular_numeros_primos(rango_inicial, rango_final)
+                
+                if (len(numeros_primos) >= 27):
+                    requisitos_cumplidos = True
+                else:
+                    print("\nInserte un rango lo suficiente para almacenar 27 valores...\n")
         
             llave = int(input("Inserta un número para la llave: "))
             
-            mensaje_encriptado = input("Inserta un mensaje a encriptar: ")
+            mensaje_encriptado = input("Inserta un mensaje encriptado: ")
         
             mensaje_desencriptado = desencriptar_mensaje(mensaje_encriptado, numeros_primos, llave)
         
-            print("Tu mensaje ha sido desencriptado: ", mensaje_desencriptado)
+            print("\nTu mensaje ha sido desencriptado: ", mensaje_desencriptado, "\n")
         elif (res == 3):
             return "Saliendo del programa..."
         else:
